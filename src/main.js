@@ -1,5 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+// 兼容IE11用
+import 'babel-polyfill'
+// 正式开始
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Antd from 'ant-design-vue'

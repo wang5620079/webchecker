@@ -32,18 +32,18 @@
 </template>
 <script>
 export default {
-    data () {
-      return {
+  data () {
+    return {
       collapsed: false,
-        openKeys: ['sub1', 'sub2']
-      }
-    },
-    methods: {
-      handleMenuClick (e) {
-        console.log('click', e)
-      }
+      openKeys: ['sub1', 'sub2']
+    }
+  },
+  methods: {
+    handleMenuClick (e) {
+      console.log('click', e)
     }
   }
+}
 </script>
 
 <style>
