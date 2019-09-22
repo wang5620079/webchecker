@@ -23,6 +23,12 @@ Vue.use(Vuex)
 Vue.use(Antd)
 Vue.use(VueAxios, axios)
 
+Vue.prototype.$axios = axios
+axios.defaults.baseURL = '/api'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+
+Vue.config.productionTip = false
+
 moment.locale('zh-cn')
 
 /* eslint-disable no-new */

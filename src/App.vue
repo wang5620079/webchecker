@@ -9,16 +9,22 @@
         <a-sub-menu
           key="sub1" @click="handleMenuClick"
         >
-          <span slot="title"><a-icon type="user" /><span>参数设置</span></span>
-          <a-menu-item key="1">监控页面设置</a-menu-item>
+          <span slot="title"><a-icon type="setting" /><span>参数设置</span></span>
+          <a-menu-item key="1"><router-link to="/UrlSetting">监控页面设置</router-link></a-menu-item>
           <a-menu-item key="2"><router-link to="/TestCmp">系统参数设置</router-link></a-menu-item>
-          <a-menu-item key="3"><router-link to="/Test">运行参数设置</router-link></a-menu-item>
+          <a-menu-item key="3"><router-link to="/RuntimeSetting">运行参数设置</router-link></a-menu-item>
         </a-sub-menu>
         <a-sub-menu
           key="sub2"
         >
-          <span slot="title"><a-icon type="user" /><span>监控情况</span></span>
+          <span slot="title"><a-icon type="setting" /><span>监控情况</span></span>
           <a-menu-item key="4">url监控情况</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu
+          key="sub3"
+        >
+          <span slot="title"><a-icon type="bulb" /><span>测试</span></span>
+          <a-menu-item key="3"><router-link to="/Test">运行参数设置</router-link></a-menu-item>
         </a-sub-menu>
       </a-menu>
     </a-layout-sider>

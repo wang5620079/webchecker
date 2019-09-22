@@ -1,7 +1,12 @@
 <template>
   <div>
-    <a-button class="editable-add-btn" @click="handleAdd">Add</a-button>
-    <a-table bordered :dataSource="dataSource" :columns="columns">
+    <a-button class="editable-add-btn" @click="handleAdd">增加</a-button>
+    <a-button class="editable-add-btn" @click="handleDeleteSelections">删除所选项目</a-button><span style="margin-left: 8px">
+        <template v-if="hasSelected">
+          {{`已选择 ${selectedRowKeys.length} 项`}}
+        </template>
+      </span>
+    <a-table bordered :dataSource="dataSource" :columns="columns" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
 <!--      <template slot="name" slot-scope="text, record">-->
 <!--        <editable-cell :text="text" @change="onCellChange(record.key, 'name', $event)"/>-->
 <!--      </template>-->
@@ -72,10 +77,31 @@ export default {
         title: 'operation',
         dataIndex: 'operation',
         scopedSlots: { customRender: 'operation' }
-      }]
+      }],
+      selectedRowKeys: [] // Check here to configure the default column
+    }
+  },
+  computed: {
+    hasSelected () {
+      return this.selectedRowKeys.length > 0
     }
   },
   methods: {
+    handleDeleteSelections () {
+      console.log(this.selectedRowKeys)
+      const dataSource = [...this.dataSource]
+      for (var keyitem in this.selectedRowKeys) {
+        console.log(keyitem)
+        this.dataSource = dataSource.filter(item => item.key !== this.selectedRowKeys[keyitem])
+      }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
+    },
+    onSelectChange (selectedRowKeys) {
+      // console.log('selectedRowKeys changed: ', selectedRowKeys)
+      this.selectedRowKeys = selectedRowKeys
+      console.log(this.selectedRowKeys)
+    },
     onCellChange (key, dataIndex, value) {
       const dataSource = [...this.dataSource]
       const target = dataSource.find(item => item.key === key)
@@ -105,7 +131,7 @@ export default {
     handleAdd () {
       const { count, dataSource } = this
       const newData = {
-        key: count + 1,
+        key: count + 1 + '',
         browername: `browername`,
         path: 'd:\\',
         editable: false
