@@ -2,16 +2,36 @@
   <div>
     <a-button class="editable-add-btn" @click="handleAdd">Add</a-button>
     <a-table bordered :dataSource="dataSource" :columns="columns">
-      <template slot="name" slot-scope="text, record">
-        <editable-cell :text="text" @change="onCellChange(record.key, 'name', $event)"/>
+<!--      <template slot="name" slot-scope="text, record">-->
+<!--        <editable-cell :text="text" @change="onCellChange(record.key, 'name', $event)"/>-->
+<!--      </template>-->
+      <template v-for="col in ['browername', 'path']" :slot="col" slot-scope="text, record, index">
+        <div :key="col">
+          <a-input
+            v-if="record.editable"
+            style="margin: -5px 0"
+            :value="text"
+            @change="e => handleChange(e.target.value, record.key, col)"
+          />
+          <template v-else>{{text}}</template>
+        </div>
       </template>
       <template slot="operation" slot-scope="text, record,index">
         <a-popconfirm
           v-if="dataSource.length"
-          title="Sure to delete?"
+          title="确认删除?"
           @confirm="() => onDelete(record.key)">
           <a href="javascript:;">刪除</a>
         </a-popconfirm>
+        <span v-if="record.editable">
+          <a @click="() => save(record.key)">保存</a>
+          <a-popconfirm title='确认取消?' @confirm="() => cancel(record.key)">
+            <a>取消</a>
+          </a-popconfirm>
+        </span>
+        <span v-else>
+          <a @click="() => edit(record.key)">修改</a>
+        </span>
       </template>
     </a-table>
   </div>
@@ -22,6 +42,7 @@ import EditableCell from './EditableCell'
   * EditableCell Code https://github.com/vueComponent/ant-design-vue/blob/master/components/table/demo/EditableCell.vue
   */
 export default {
+  name: 'Test',
   components: {
     EditableCell
   },
@@ -30,19 +51,23 @@ export default {
       dataSource: [{
         key: '1',
         browername: 'IE',
-        path: 'C:\\Program Files\\Internet Explorer\\iexplore.exe'
+        path: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
+        editable: false
       }, {
         key: '2',
         browername: 'Chrome',
-        path: 'C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\Application'
+        path: 'C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\Application',
+        editable: false
       }],
       count: 2,
       columns: [ {
         title: '浏览器名称',
-        dataIndex: 'browername'
+        dataIndex: 'browername',
+        scopedSlots: { customRender: 'browername' }
       }, {
         title: '路径',
-        dataIndex: 'path'
+        dataIndex: 'path',
+        scopedSlots: { customRender: 'path' }
       }, {
         title: 'operation',
         dataIndex: 'operation',
@@ -58,21 +83,72 @@ export default {
         target[dataIndex] = value
         this.dataSource = dataSource
       }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
+    },
+    handleChange (value, key, column) {
+      const newData = [...this.dataSource]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        target[column] = value
+        this.dataSource = newData
+      }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
     },
     onDelete (key) {
       const dataSource = [...this.dataSource]
       this.dataSource = dataSource.filter(item => item.key !== key)
+      console.log(this.cacheData)
+      console.log(this.dataSource)
     },
     handleAdd () {
       const { count, dataSource } = this
       const newData = {
-        key: count,
-        name: `Edward King ${count}`,
-        age: 32,
-        address: `London, Park Lane no. ${count}`
+        key: count + 1,
+        browername: `browername`,
+        path: 'd:\\',
+        editable: false
       }
       this.dataSource = [...dataSource, newData]
       this.count = count + 1
+      console.log(this.cacheData)
+      console.log(this.dataSource)
+    },
+
+    edit (key) {
+      const newData = [...this.dataSource]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        target.editable = true
+        this.dataSource = newData
+      }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
+    },
+    save (key) {
+      const newData = [...this.dataSource]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        delete target.editable
+        this.dataSource = newData
+        this.cacheData = newData.map(item => ({ ...item }))
+      }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
+    },
+    cancel (key) {
+      const newData = [...this.dataSource]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        if (this.cacheData) {
+          Object.assign(target, this.cacheData.filter(item => key === item.key)[0])
+        }
+        delete target.editable
+        this.dataSource = newData
+      }
+      console.log(this.cacheData)
+      console.log(this.dataSource)
     }
   }
 }
