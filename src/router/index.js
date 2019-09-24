@@ -5,6 +5,8 @@ import TestCmp from '@/components/TestCmp'
 import Test from '@/components/Test'
 import RuntimeSettingCmp from '@/components/RuntimeSettingCmp'
 import UrlSettingCmp from '@/components/UrlSettingCmp'
+import TestTab from '@/components/TestTab'
+import ErrorTaskList from '@/components/ErrorTaskList'
 
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ export default new Router({
       path: '/Test',
       name: 'Test',
       component: Test
+    },
+    {
+      path: '/TestTab',
+      name: 'TestTab',
+      component: TestTab
+    },
+    {
+      path: '/ErrorTaskList',
+      name: 'ErrorTaskList',
+      component: ErrorTaskList
     }
   ]
 })

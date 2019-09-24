@@ -48,7 +48,7 @@
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
       >
-        <a-select defaultValue="NORMAL" style="width: 120px" @change="handleChange" v-mode="checkermode">
+        <a-select defaultValue="NORMAL" style="width: 120px" @change="handleChange" v-model="checkermode">
           <a-select-option value="NORMAL">NORMAL</a-select-option>
           <a-select-option value="QUICK">QUICK</a-select-option>
         </a-select>
@@ -58,21 +58,21 @@
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
       >
-        <a-input-number :min="1" :max="50" v-mode="page_load_timeout" />
+        <a-input-number :min="1" :max="50" v-model="page_load_timeout" />
       </a-form-item>
       <a-form-item
         label="脚本加载超时时间"
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
       >
-        <a-input-number :min="1" :max="50" v-mode="script_timeout"/>
+        <a-input-number :min="1" :max="50" v-model="script_timeout"/>
       </a-form-item>
       <a-form-item
         label="重新运行检查器间隔时间"
         :label-col="formItemLayout.labelCol"
         :wrapper-col="formItemLayout.wrapperCol"
       >
-        <a-input-number :min="1" :max="600" v-mode="rerundtime"/>
+        <a-input-number :min="1" :max="600" v-model="rerundtime"/>
       </a-form-item>
       <a-form-item
         :wrapper-col="buttonItemLayout.wrapperCol"
@@ -93,6 +93,10 @@ export default {
   name: 'TestCmp',
   data () {
     return {
+      checkermode: 'NORMAL',
+      page_load_timeout: 10,
+      script_timeout: 5,
+      rerundtime: 60,
       form: this.$form.createForm(this),
       // eslint-disable-next-line
       dataSource: [{
@@ -121,10 +125,6 @@ export default {
         scopedSlots: { customRender: 'operation' }
       }],
       selectedRowKeys: [], // Check here to configure the default column
-      checkermode: 'NORMAL',
-      page_load_timeout: 10,
-      script_timeout: 5,
-      rerundtime: 60,
       formItemLayout: {
         labelCol: { span: 4 },
         wrapperCol: { span: 14 }
