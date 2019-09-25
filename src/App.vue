@@ -18,16 +18,17 @@
           key="sub2"
         >
           <span slot="title"><a-icon type="setting" /><span>监控情况</span></span>
-          <a-menu-item key="4"><router-link to="/TestTab">url监控情况</router-link></a-menu-item>
-          <a-menu-item key="8"><router-link to="/ErrorTaskList">异常任务清单</router-link></a-menu-item>
+          <a-menu-item key="4"><router-link to="/ManualCheck">手动url监控</router-link></a-menu-item>
+          <a-menu-item key="5"><router-link to="/TestTab">自动url监控情况</router-link></a-menu-item>
+          <a-menu-item key="6"><router-link to="/ErrorTaskList">异常任务清单</router-link></a-menu-item>
         </a-sub-menu>
         <a-sub-menu
           key="sub3"
         >
           <span slot="title"><a-icon type="bulb" /><span>测试</span></span>
-          <a-menu-item key="6"><router-link to="/Test">运行参数设置</router-link></a-menu-item>
-          <a-menu-item key="7"><router-link to="/TestTab">表格测试</router-link></a-menu-item>
-          <a-menu-item key="8"><router-link to="/ErrorTaskList">表格测试</router-link></a-menu-item>
+          <a-menu-item key="7"><router-link to="/Test">运行参数设置</router-link></a-menu-item>
+          <a-menu-item key="8"><router-link to="/TestTab">表格测试</router-link></a-menu-item>
+          <a-menu-item key="9"><router-link to="/ErrorTaskList">表格测试</router-link></a-menu-item>
         </a-sub-menu>
       </a-menu>
     </a-layout-sider>

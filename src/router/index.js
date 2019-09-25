@@ -7,6 +7,7 @@ import RuntimeSettingCmp from '@/components/RuntimeSettingCmp'
 import UrlSettingCmp from '@/components/UrlSettingCmp'
 import TestTab from '@/components/TestTab'
 import ErrorTaskList from '@/components/ErrorTaskList'
+import ManualCheck from '@/components/ManualCheck'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/ErrorTaskList',
       name: 'ErrorTaskList',
       component: ErrorTaskList
+    },
+    {
+      path: '/ManualCheck',
+      name: 'ManualCheck',
+      component: ManualCheck
     }
   ]
 })
