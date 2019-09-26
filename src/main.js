@@ -24,7 +24,8 @@ Vue.use(Antd)
 Vue.use(VueAxios, axios)
 
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = '/api'
+// axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 Vue.config.productionTip = false

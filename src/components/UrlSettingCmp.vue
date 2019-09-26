@@ -14,7 +14,7 @@
         <a-col :span="6" style="text-align: center"><div class="ant-steps-item-icon"><span class="ant-steps-icon">2</span></div></a-col>
         <a-col :span="6"><h3>上传清单</h3></a-col>
         <a-col :span="6">
-          <a-upload name="file" :multiple="true" action="/upload" :headers="headers" @change="handleChange">
+          <a-upload name="file" :multiple="true" action="/api/v1/upload" :headers="headers" @change="handleChange">
             <a-button>
               <a-icon type="upload" /> 点击上传
             </a-button>
@@ -79,20 +79,6 @@ export default {
     handleDownload () {
       window.open('http://127.0.0.1:5000/api/v1/getUrlTemplate', '_blank')
     },
-    download (data) {
-      if (!data) {
-        return // 如果请求没有接收到任何数据，就不执行钩子方法
-      }
-      // 组装一个下载器
-      let url = window.URL.createObjectURL(new Blob([data])) // 创建一个blob对象，接收文件流
-      let link = document.createElement('a') // 虚拟一个a标签，用来触发文件下载操作
-      link.style.display = 'none' // 隐藏它，用户交互很重要，圈起来
-      link.href = url // 直接将对象给它的href
-      link.setAttribute('download', 'url配置模板.xlsx') // 保存下载文件名，给它一个下载的文件名，可以写死，可以在钩子里面拿到文件名filename给它
-
-      document.body.appendChild(link) // 将组装好的下载器置入页面body
-      link.click() // 自动触发点击事件==下载
-    },
     handleChange (info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList)
@@ -118,7 +104,7 @@ export default {
     },
     fetch (params = {}) {
       var me = this
-      this.axios.post('/geturls', params).then((response) => {
+      this.axios.post('/api/v1/geturls', params).then((response) => {
         const pagination = { ...this.pagination }
         // Read total count from server
         // pagination.total = data.totalCount;
@@ -130,13 +116,26 @@ export default {
     },
     loaddata () {
       var me = this
-      this.axios.post('/geturls').then((response) => {
+      this.$axios.post('/api/v1/geturls').then((response) => {
         const pagination = { ...this.pagination }
         pagination.total = response.data.total
         me.loading = false
         me.dataSource = response.data.data
         me.pagination = pagination
+      }, (error) => {
+        if (error.response && error.response.status === 403) {
+          this.info('api请求方式错误')
+        }
+        if (error.response && error.response.status === 404) {
+          this.info('api未找到')
+        }
+        if (error.response && error.response.status === 500) {
+          this.info('服务器内部错误')
+        }
       })
+    },
+    info (msg) {
+      this.$message.info(msg)
     }
   }
 }
